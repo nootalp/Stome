@@ -1,26 +1,20 @@
 from Stome import Run
+from Pointer import Pointer
 import asyncio
 import msvcrt
 import keyboard
 
 
-class Test1(Run):
+class MainPointer(Run):
 
     async def task(self, event):
         while True:
-            await self.return_value(event)
+            await Pointer().random_position()
+            await asyncio.sleep(1)
             await event.wait()
 
 
-class Test2(Run):
-
-    async def task(self, event):
-        while True:
-            await self.return_value(event)
-            await event.wait()
-
-
-class Key(Run):
+class MainKey(Run):
 
     async def task(self, event):
         while True:
