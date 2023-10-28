@@ -1,26 +1,54 @@
-import asyncio
-from abc import ABC, abstractmethod
+import threading
+import time
+import keyboard
+import msvcrt
+from concurrent.futures import ThreadPoolExecutor
+from Package.ClassStome import Run
+from Package.ClassPointer import Pointer
 
 
-class Run(ABC):
+class Fish(Run):
 
-    def __init__(self, event):
-        self._name = self.__class__.__name__
-        self._event = event
+    def task(self, event, shut):
+        while not shut.is_set():
+            Pointer().random_position()
+            event.wait()
 
-    async def __aenter__(self):
-        print(f"Initiating {self._name, self._event}")
-        return self
 
-    async def __aexit__(self, exc_type, exc, tb):
-        if exc_type is not None:
-            print(f"Exception {exc_type} in {self._name}. {exc}")
-        return True
+class Encase(Run):
 
-    async def return_value(self, event):
-        print(f"{'True' if event.is_set() else 'False'} from {self._name}")
-        await asyncio.sleep(1)
+    def task(self, event, shut):
+        while not shut.is_set():
+            is_pressed = keyboard.is_pressed(hotkey="insert")
+            if is_pressed and not was_pressed:
+                event.clear() if event.is_set() else event.set()
+                print("Switch state:", event.is_set())
+            was_pressed = is_pressed
 
-    @abstractmethod
-    def task(self, event):
+            if keyboard.is_pressed(hotkey="ctrl+c"):
+                shut.set()
+                event.set()
+
+            time.sleep(0.1)
+
+
+def main():
+    halt = threading.Event()
+    shut = threading.Event()
+    subclasses = [globals()[index.__name__] for index in Run.__subclasses__()]
+
+    with ThreadPoolExecutor(max_workers=len(subclasses)) as executor:
+        for Class in subclasses:
+            instance = Class(halt, shut)
+            with instance:
+                executor.submit(instance.task, halt, shut)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
         pass
+    finally:
+        while msvcrt.kbhit():
+            msvcrt.getch()
