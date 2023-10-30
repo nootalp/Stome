@@ -36,7 +36,7 @@ class Encase(Run):
         is_pressed = keyboard.is_pressed("insert")
         if is_pressed and not self._was_pressed:
             halt.clear() if halt.is_set() else halt.set()
-            print("Switch state:", halt.is_set())
+            print("Switch state:", halt.is_set(), end=' \r')
         self._was_pressed = is_pressed
 
         if keyboard.is_pressed('escape') or keyboard.is_pressed('ctrl+c'):
