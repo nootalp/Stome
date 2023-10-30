@@ -4,13 +4,13 @@ import time
 
 class Run(ABC):
 
-    def __init__(self, event, shut):
+    def __init__(self, halt, shutdown):
         self._name = self.__class__.__name__
-        self._event = event
-        self._shut = shut
+        self._halt = halt
+        self._shutdown = shutdown
 
     def __enter__(self):
-        print(f"Initiating {self._name, self._event, self._shut}")
+        print(f"Initiating {self._name, self._halt, self._shutdown}")
         return self
 
     def __exit__(self, exc_type, exc, tb):
@@ -18,10 +18,10 @@ class Run(ABC):
             print(f"Exception {exc_type} in {self._name}. {exc}")
         return True
 
-    def return_value(self, event):
-        print(f"{'True' if event.is_set() else 'False'} from {self._name}")
+    def return_value(self, halt):
+        print(f"{'True' if halt.is_set() else 'False'} from {self._name}")
         time.sleep(1)
 
     @abstractmethod
-    def task(self, event, shut):
+    def task(self, halt, shutdown):
         raise NotImplementedError("Subclasses must implement this method.")

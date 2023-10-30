@@ -1,4 +1,4 @@
-from .common import Constants
+from .config import Constants
 import random
 import pyautogui
 import time
@@ -7,9 +7,9 @@ import time
 class Pointer:
 
     def __init__(self):
-        self._init_position = Constants.FISH_POSITION
-        self._random_coor = random.choice(list(Constants.POSITIONS))
-        self._current_position = pyautogui.position()
+        self._constant = Constants()
+        self._init_position = self._constant.FISH_POSITION
+        self._random_coor = random.choice(list(self._constant.POSITIONS))
         self._tool_selected = False
         self._waiting = False
 
