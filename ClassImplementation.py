@@ -50,5 +50,5 @@ class Fish(Run):
     @threadloop
     def task(self, halt, shutdown):
         """ Main program execution. """
-        Pointer().random_position()
         halt.wait()
+        Pointer().random_position()

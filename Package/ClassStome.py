@@ -16,7 +16,8 @@ class Run(ABC):
     def __exit__(self, exc_type, exc, tb):
         if exc_type is not None:
             print(f"Exception {exc_type} in {self._name}. {exc}")
-        return True
+            return 1
+        return 0
 
     def return_value(self, halt):
         print(f"{'True' if halt.is_set() else 'False'} from {self._name}")
