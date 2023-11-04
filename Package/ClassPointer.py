@@ -3,14 +3,19 @@ import pyautogui
 from .config import Constants
 
 
-class Pointer:
-
+class PointerConstants:
+    
     def __init__(self):
         self._constant = Constants()
         self._init_position = self._constant.FISH_POSITION
         self._random_coor = random.choice(list(self._constant.POSITIONS))
-        self._tool_selected = False
-        self._waiting = False
+        self._tool_selected, self._waiting  = False, False
+
+
+class Pointer(PointerConstants):
+
+    def __init__(self):
+        super().__init__()
 
     def to_select_click(self):
         pyautogui.click(button='left')

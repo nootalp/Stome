@@ -26,6 +26,7 @@ class Info:
 
 
 class Encase(Run):
+
     def __init__(self, halt, shutdown):
         super().__init__(halt, shutdown)
         self._was_pressed = False

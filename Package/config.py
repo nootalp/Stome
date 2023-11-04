@@ -3,7 +3,6 @@ import threading
 
 class Constants:
     def __init__(self):
-        self._name = self.__class__.__name__
         self.HALT = threading.Event()
         self.SHUTDOWN = threading.Event()
         self.FISH_POSITION = (484, 333)
@@ -19,4 +18,4 @@ class Constants:
 
     def __exit__(self, exc_type, exc_value, traceback):
         if exc_type is not None:
-            print(f'Exception {exc_type} in {self._name}. {exc_value}\n{traceback}')
+            print(f'Exception {exc_type} in {self}. {exc_value}\n{traceback}')

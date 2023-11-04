@@ -2,12 +2,18 @@ from abc import ABC, abstractmethod
 import time
 
 
-class Run(ABC):
+class RunConstants:
 
     def __init__(self, halt, shutdown):
         self._name = self.__class__.__name__
         self._halt = halt
         self._shutdown = shutdown
+
+
+class Run(ABC, RunConstants):
+
+    def __init__(self, halt, shutdown):
+        super().__init__(halt, shutdown)
 
     def __enter__(self):
         print(f"Initiating {self._name, self._halt, self._shutdown}")
